@@ -2,11 +2,16 @@
     "general": {
         "random_state": 42,
         "status": "test",
-        "datetime_format": "%d.%m.%Y_%H.%M"
-        
+        "datetime_format": "%d.%m.%Y_%H.%M",
+        "kaggle_api_path": "src/api-keys/kaggle.json",
+        "train_images_dir":"data/train_images",
+        "test_images_dir":"data/test_images",
+        "csv_data_dir":"data/csv_data"
     },
     "processing":{
-        
+        "dataset_name":"competitions/airbus-ship-detection",
+        "downloaded_csv_dir":"data/downloaded_csvs"        
+
     },
     "train": {
         "table_name": "train.csv",
