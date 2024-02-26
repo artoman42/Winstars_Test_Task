@@ -1,0 +1,22 @@
+{
+    "general": {
+        "random_state": 42,
+        "status": "test",
+        "datetime_format": "%d.%m.%Y_%H.%M"
+        
+    },
+    "processing":{
+        
+    },
+    "train": {
+        "table_name": "train.csv",
+        "C": 1,
+        "max_iter": 1000, 
+        "penalty": "l2", 
+        "solver": "liblinear"
+        },
+    "inference": {
+        "inp_table_name": "test.csv",
+        "model_name": "prod_model.pickle"
+    }
+}
