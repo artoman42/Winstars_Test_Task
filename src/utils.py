@@ -1,5 +1,6 @@
 import os
 import logging
+import zipfile
 
 def singleton(class_):
     instances = {}
@@ -17,3 +18,8 @@ def configure_logging() -> None:
     """Configures logging"""
     logging.basicConfig(level=logging.INFO, 
                         format='%(asctime)s - %(levelname)s - %(message)s')
+    
+def extract_zip(zip_file_path, extract_to):
+    """Extracts zipfile"""
+    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+        zip_ref.extractall(extract_to)

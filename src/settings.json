@@ -4,14 +4,17 @@
         "status": "test",
         "datetime_format": "%d.%m.%Y_%H.%M",
         "kaggle_api_path": "src/api-keys/kaggle.json",
-        "train_images_dir":"data/train_images",
-        "test_images_dir":"data/test_images",
-        "csv_data_dir":"data/csv_data"
+        
+        "kaggle_data_dir":"data/kaggle_data",
+        "train_images_folder_name":"train_v2"
     },
     "processing":{
         "dataset_name":"competitions/airbus-ship-detection",
-        "downloaded_csv_dir":"data/downloaded_csvs"        
-
+        "processed_data_dir":"data/processed_data/",
+        "input_df_name":"train_ship_segmentations_v2.csv",
+        "size_threshold":50,
+        "empty_amount":1000,
+        "has_ships_amount":15000
     },
     "train": {
         "table_name": "train.csv",

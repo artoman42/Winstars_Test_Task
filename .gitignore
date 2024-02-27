@@ -2,3 +2,6 @@ data/prepared/prep_images/
 api-keys/
 download_dir/
 data/
+
+src/__pycache__
+*.pyc
