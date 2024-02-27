@@ -3,5 +3,6 @@ api-keys/
 download_dir/
 data/
 
-src/__pycache__
+__pycache__/
 *.pyc
+src/.env

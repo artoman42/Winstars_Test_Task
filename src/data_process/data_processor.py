@@ -6,12 +6,13 @@ import sys
 import json
 import time
 import numpy as np
+import argparse
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SRC_DIR = os.path.join(ROOT_DIR, 'src')
 sys.path.append(SRC_DIR)
 
-from utils import singleton, get_project_dir, configure_logging, extract_zip
+from utils import configure_logging
 
 #configure and creating logger
 logger = logging.getLogger()
@@ -26,9 +27,11 @@ with open(os.path.join(SRC_DIR, CONF_FILE), "r") as file:
 
 processed_data_dir = conf['processing']['processed_data_dir']
 kaggle_data_dir = os.path.join(ROOT_DIR, conf['general']['kaggle_data_dir'])
-    
-if not os.path.exists(kaggle_data_dir):
-    os.makedirs(kaggle_data_dir)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--path",
+                    help="Specify data to load training/inference",
+                    default=kaggle_data_dir)   
 
 if not os.path.exists(processed_data_dir):
     os.path.makedirs(processed_data_dir)
@@ -81,10 +84,11 @@ class DataProcessor():
         self.save_df(path)
         end_time = time.time()
         logger.info(f"Preprocessing pipeline finished in {end_time - start_time} s.")
-        
+
 def main():
     configure_logging()
-    dataProcessor = DataProcessor(os.path.join(kaggle_data_dir, conf['processing']['input_df_name']), 
+    args = parser.parse_args()
+    dataProcessor = DataProcessor(os.path.join(args.path, conf['processing']['input_df_name']), 
                                   size_threshold=conf['processing']['size_threshold'],
                                   empty_amount=conf['processing']['empty_amount'],
                                   has_ships_amount=conf['processing']['has_ships_amount'])
