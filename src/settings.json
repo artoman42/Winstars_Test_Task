@@ -6,6 +6,7 @@
         "kaggle_api_path": "src/api-keys/kaggle.json",
         
         "kaggle_data_dir":"data/kaggle_data",
+        "models_dir":"src/models",
         "train_images_folder_name":"train_v2",
         "cropped_image_size":256
     },
@@ -47,10 +48,27 @@
     },
     "train": {
         "table_name": "train.csv",
-        "C": 1,
-        "max_iter": 1000, 
-        "penalty": "l2", 
-        "solver": "liblinear"
+        "batch_size":16,
+        "validation_ratio":0.2,
+        "augmentation_dict":{
+                "featurewise_center": false,
+                "samplewise_center": false,
+                "rotation_range": 90,
+                "width_shift_range": 0.2,
+                "height_shift_range": 0.2,
+                "shear_range": 0.1,
+                "zoom_range": [0.9, 1.25],
+                "horizontal_flip": true,
+                "vertical_flip": true,
+                "fill_mode": "reflect",
+                "data_format": "channels_last"
+            },
+        "model_compile":{
+                "optimizer": "adam",
+                "loss": "BCE_dice",
+                "metrics": ["dice_score"]
+            },
+        "epochs":1
         },
     "inference": {
         "inp_table_name": "test.csv",

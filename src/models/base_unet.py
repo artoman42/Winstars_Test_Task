@@ -17,8 +17,11 @@ with open(os.path.join(SRC_DIR, CONF_FILE), "r") as file:
 
 
 class Unet_model():
-    def __init__(self):
-        pass
+    def __init__(self, input_shape = (conf['general']['cropped_image_size'],
+                                                 conf['general']['cropped_image_size'], 3),
+                                                   num_classes = 1):
+        self.input_shape = input_shape
+        self.num_classes = num_classes
     
     def encoder_block(self, inputs, num_filters): 
         """function to create encoder block"""
@@ -71,11 +74,9 @@ class Unet_model():
         
         return x
     
-    def build_architecture(self, input_shape = (conf['general']['cropped_image_size'],
-                                                 conf['general']['cropped_image_size'], 3),
-                                                   num_classes = 1):
+    def build_architecture(self):
         """function to build model architecture"""
-        inputs = tf.keras.layers.Input(input_shape) 
+        inputs = tf.keras.layers.Input(self.input_shape) 
         
         # Contracting Path 
         s1 = self.encoder_block(inputs, 16) 
@@ -97,7 +98,7 @@ class Unet_model():
         s8 = self.decoder_block(s7, s1, 16) 
         
         # Output 
-        outputs = tf.keras.layers.Conv2D(num_classes,  
+        outputs = tf.keras.layers.Conv2D(self.num_classes,  
                                         1,  
                                         padding = 'same',  
                                         activation = 'sigmoid')(s8) 

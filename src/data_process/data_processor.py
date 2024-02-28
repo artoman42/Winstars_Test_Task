@@ -34,7 +34,7 @@ parser.add_argument("--path",
                     default=kaggle_data_dir)   
 
 if not os.path.exists(processed_data_dir):
-    os.path.makedirs(processed_data_dir)
+    os.makedirs(processed_data_dir)
 
 class DataProcessor():
     def __init__(self, data_path:os.path, size_threshold, empty_amount, has_ships_amount) -> None:

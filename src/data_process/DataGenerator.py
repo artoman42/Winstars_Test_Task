@@ -5,7 +5,12 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import os
+import sys
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+SRC_DIR = os.path.join(ROOT_DIR, 'src')
+sys.path.append(SRC_DIR)
 
+# from utils import configure_logging
 from image_utils import crop3x3_mask, crop3x3, rle_decode
 
 class DataGenerator(tf.keras.utils.Sequence):
@@ -28,7 +33,6 @@ class DataGenerator(tf.keras.utils.Sequence):
         self.df = self.df.sample(frac=1)
 
     def __getitem__(self, index):
-        
         mask = np.empty((self.batch_size, self.cropped_image_size, self.cropped_image_size), np.float32)
         image = np.empty((self.batch_size, self.cropped_image_size, self.cropped_image_size, 3), np.float32)
         batch_df = self.df[index * self.batch_size: (index + 1) * self.batch_size]

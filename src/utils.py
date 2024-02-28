@@ -40,3 +40,4 @@ def try_to_use_gpus():
             logging.info(e)
     else:
         logging.info("No GPUs found! Using only CPU!")
+
