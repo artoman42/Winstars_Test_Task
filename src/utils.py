@@ -1,6 +1,7 @@
 import os
 import logging
 import zipfile
+import tensorflow as tf
 
 def singleton(class_):
     instances = {}
@@ -23,3 +24,19 @@ def extract_zip(zip_file_path, extract_to):
     """Extracts zipfile"""
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
         zip_ref.extractall(extract_to)
+
+def try_to_use_gpus():
+    gpus = tf.config.experimental.list_physical_devices('GPU')
+
+    if gpus:
+        try:
+            # Set memory growth for all GPUs
+            for gpu in gpus:
+                tf.config.experimental.set_memory_growth(gpu, True)
+            logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+            logging.info(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+        except RuntimeError as e:
+            # Visible devices must be set before GPUs have been initialized
+            logging.info(e)
+    else:
+        logging.info("No GPUs found! Using only CPU!")

@@ -6,8 +6,10 @@
         "kaggle_api_path": "src/api-keys/kaggle.json",
         
         "kaggle_data_dir":"data/kaggle_data",
-        "train_images_folder_name":"train_v2"
+        "train_images_folder_name":"train_v2",
+        "cropped_image_size":256
     },
+    
     "processing":{
         "dataset_name":"competitions/airbus-ship-detection",
         "processed_data_dir":"data/processed_data/",
@@ -15,6 +17,33 @@
         "size_threshold":50,
         "empty_amount":1000,
         "has_ships_amount":15000
+        
+    },
+    "callbacks":{
+        "checkpoint":{
+            "filepath":"outputs/models_checkpoints",
+            "save_weigths_only":true,
+            "save_best_only":true,
+            "monitor":"val_loss",
+            "mode":"min",
+            "verbose":1
+        },
+        "reduceLrOnPLat":{
+            "monitor":"val_loss",
+            "factor":0.33,
+            "patrience":1,
+            "verbose":1,
+            "mode":"min",
+            "min_delta":0.0001,
+            "cooldown":0,
+            "min_lr":1e-8
+        },
+        "early_stopping":{
+            "monitor":"val_loss",
+            "mode":"min",
+            "verbose":2,
+            "patience":10
+        }        
     },
     "train": {
         "table_name": "train.csv",
