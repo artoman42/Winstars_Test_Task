@@ -74,3 +74,5 @@ python src/inference/inference.py --data_path <your_kaggle_data_dir_path> --mode
 ```
 With <your_kaggle_data_dir_path> provide your data folder in kaggle format, or by default it will be `./data/kaggle_data`. Also all names must be same to kaggle competion, or you will need to change them in `settings.json`. By the default <model_weights_path> it will takes my pretrained model from `scr/model_weigths/best_baseline.hdf5`. <amount> is integer amount of test data, on which you wanna test inference.
 
+## Overview
+It was very interesting experience, and i have learned and tried many new things, but don't have much time to implement in practice. But i wanna say thank you for this opportunity, and will looking forward for results.
