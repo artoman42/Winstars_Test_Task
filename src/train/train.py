@@ -9,7 +9,6 @@ import json
 import logging
 import pandas as pd
 import time
-from datetime import datetime
 from sklearn.model_selection import train_test_split
 
 # Adds the root directory to system path

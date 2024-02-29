@@ -1,1 +1,8 @@
-kaggle==1.6.6 # uncomment if u want to download full data
+kaggle==1.6.6 # only for DataLoading script
+pandas==1.5.2
+tensorflow==2.13.0
+sklearn==1.2.1
+scipy==1.10.0
+skimage==0.19.3
+numpy==1.23.5
+keras==2.13.1

@@ -61,6 +61,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             return image, mask
         
     def show_samples(self, num_samples=5):
+        """function to show samples"""
         fig, axes = plt.subplots(num_samples, 2, figsize=(10, num_samples * 5))
         indices = np.random.randint(0, len(self.df), num_samples)
         
