@@ -9,8 +9,6 @@ import json
 import logging
 import pandas as pd
 import time
-import tensorflow as tf
-from tensorflow.keras import layers, models
 from datetime import datetime
 from sklearn.model_selection import train_test_split
 
@@ -24,10 +22,9 @@ sys.path.append(DATA_PROCESS_DIR)
 sys.path.append(MODELS_DIR)
 
 
-from utils import configure_logging
+from utils import configure_logging, try_to_use_gpus
 from DataGenerator import DataGenerator 
 from base_unet import Unet_model
-from losses import dice_score, BCE_dice
 from callbacks import get_callbacks
 
 #configure and creating logger
@@ -54,7 +51,7 @@ class Training():
         self.valid = None
         self.history = None
         
-
+    
     def prepare_data(self, images_path):
         """function to prepare image data for training"""
         logger.info("Splitting data to train/validation subsets...")
@@ -68,12 +65,16 @@ class Training():
                                     valid_df)
         
     def compile_model(self, compile_args=conf['train']['model_compile']):
+        """function to compile model"""
         logger.info("Compiling model...")
-        # self.model.compile(optimizer='adam',loss=BCE_dice, metrics=dice_score)
         self.model.compile(**compile_args)
     
     def run_training(self):
+        """function to run training"""
         logger.info("Starting training pipeline")
+        start_time = time.time()
+        try_to_use_gpus()
+        self.init_losses()
         self.prepare_data(self.images_path)
         self.compile_model()
         self.model.fit(self.train,
@@ -81,9 +82,8 @@ class Training():
                        batch_size=conf['train']['batch_size'],
                        validation_data=self.valid,
                        callbacks=get_callbacks())
-        logger.info("Training ended.")    
-
-
+        end_time = time.time()
+        logger.info(f"Training finished in {(end_time - start_time)/60} minutes.")    
     
 
 if __name__ == "__main__":
@@ -95,7 +95,6 @@ if __name__ == "__main__":
     else:
         DATA_DIR = args.data_path
 
-    DATA_DIR = os.path.join(ROOT_DIR, conf['general']['kaggle_data_dir'])
     CHECKPOINTS_PATH = os.path.join(ROOT_DIR, conf['callbacks']['checkpoint']['filepath'])
     PREPROCESSED_DATA_DIR = os.path.join(ROOT_DIR, conf['processing']['processed_data_dir'])
     TRAIN_PATH = os.path.join(PREPROCESSED_DATA_DIR, conf['train']['table_name'])

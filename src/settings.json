@@ -8,6 +8,7 @@
         "kaggle_data_dir":"data/kaggle_data",
         "models_dir":"src/models",
         "train_images_folder_name":"train_v2",
+        "test_images_folder_name":"test_v2",
         "cropped_image_size":256
     },
     
@@ -68,10 +69,14 @@
                 "loss": "BCE_dice",
                 "metrics": ["dice_score"]
             },
-        "epochs":1
+        "epochs":10
         },
     "inference": {
-        "inp_table_name": "test.csv",
-        "model_name": "prod_model.pickle"
+        "table_name": "sample_submission_v2.csv",
+        "predictions_dir":"outputs/predictions",
+        "models_weigths_dir":"src/model_weigths",
+        "models_weigths_name":"best_baseline.hdf5",
+        "predictions_name":"predictions.csv"
+
     }
 }

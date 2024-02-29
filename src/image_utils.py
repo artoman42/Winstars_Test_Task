@@ -5,6 +5,7 @@ import sys
 import os
 import json
 import keras.backend as K
+from scipy import ndimage
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_DIR = os.path.join(ROOT_DIR, 'src')
@@ -77,3 +78,40 @@ def masks_as_image(in_mask_list):
             all_masks += show_decode(mask)
     return np.expand_dims(all_masks, -1)
 
+def split_mask(mask, threshold = 0.6,  threshold_obj = 8  ):
+        """
+        Split the input mask into individual objects.
+
+        Args:
+            mask (numpy.ndarray): Binary mask representing objects, where values above a threshold are considered part of an object.
+            threshold (float): Threshold value for considering a pixel as part of an object. Defaults to 0.6.
+            threshold_obj (int): Minimum number of pixels for an object to be considered. Defaults to 8.
+
+        Returns:
+            list: A list of numpy arrays, each representing a segmented object from the input mask.
+        """
+        labeled,n_objs = ndimage.label(mask > threshold)
+        result = []
+        for i in range(n_objs):
+            obj = (labeled == i + 1).astype(int)
+            if(obj.sum() > threshold_obj): result.append(obj)
+        return result
+
+def rle_encode(img):
+    """fucntion to make rle encoding of mask"""
+    pixels = img.T.flatten()
+    pixels = np.concatenate([[0], pixels, [0]])
+    runs = np.where(pixels[1:] != pixels[:-1])[0] + 1
+    runs[1::2] -= runs[::2]
+    return ' '.join(str(x) for x in runs)
+
+
+def get_run_length_encoded_predictions(y_pred, img_name):
+    """function to get rle encoded predictions"""
+    list_dict = []
+    masks = split_mask(y_pred)
+    if len(masks) == 0:
+        list_dict.append({"ImageId": img_name, "EncodedPixels": np.nan})
+    for mask in masks:
+        list_dict.append({"ImageId": img_name, "EncodedPixels": rle_encode(mask)})
+    return list_dict

@@ -6,6 +6,3 @@ def dice_score(y_true, y_pred):
 def BCE_dice(y_true, y_pred):
     return  K.binary_crossentropy(y_true, y_pred)+  (1-dice_score(y_true, y_pred))
 
-from tensorflow.keras.utils import get_custom_objects
-get_custom_objects().update({"BCE_dice": BCE_dice,
-                              "dice_score":dice_score})

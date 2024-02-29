@@ -30,7 +30,7 @@ kaggle_data_dir = os.path.join(ROOT_DIR, conf['general']['kaggle_data_dir'])
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--path",
-                    help="Specify data to load training/inference",
+                    help="Specify data to training data folder",
                     default=kaggle_data_dir)   
 
 if not os.path.exists(processed_data_dir):

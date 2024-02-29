@@ -1,4 +1,3 @@
-data/prepared/prep_images/
 api-keys/
 download_dir/
 data/
@@ -7,3 +6,5 @@ __pycache__/
 *.pyc
 src/.env
 src/iamge_utils.py
+.env
+outputs/
