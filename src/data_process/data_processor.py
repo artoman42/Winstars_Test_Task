@@ -88,12 +88,12 @@ class DataProcessor():
 def main():
     configure_logging()
     args = parser.parse_args()
-    dataProcessor = DataProcessor(os.path.join(args.path, conf['processing']['input_df_name']), 
+    data_processor = DataProcessor(os.path.join(args.path, conf['processing']['input_df_name']), 
                                   size_threshold=conf['processing']['size_threshold'],
                                   empty_amount=conf['processing']['empty_amount'],
                                   has_ships_amount=conf['processing']['has_ships_amount'])
     
-    dataProcessor.run_processing_pipeline(os.path.join(processed_data_dir, conf['train']['table_name']))
+    data_processor.run_processing_pipeline(os.path.join(processed_data_dir, conf['train']['table_name']))
 
 
 if __name__ == "__main__":

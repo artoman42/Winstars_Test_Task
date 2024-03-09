@@ -16,7 +16,7 @@ with open(os.path.join(SRC_DIR, CONF_FILE), "r") as file:
     conf = json.load(file)
 
 
-class Unet_model():
+class UnetModel():
     def __init__(self, input_shape = (conf['general']['cropped_image_size'],
                                                  conf['general']['cropped_image_size'], 3),
                                                    num_classes = 1):

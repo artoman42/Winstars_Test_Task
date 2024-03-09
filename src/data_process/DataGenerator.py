@@ -10,7 +10,6 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SRC_DIR = os.path.join(ROOT_DIR, 'src')
 sys.path.append(SRC_DIR)
 
-# from utils import configure_logging
 from image_utils import crop3x3_mask, crop3x3, rle_decode
 
 class DataGenerator(tf.keras.utils.Sequence):

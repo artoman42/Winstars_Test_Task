@@ -5,7 +5,7 @@ import os
 import logging
 import zipfile
 import tensorflow as tf
-from losses import dice_score, BCE_dice
+from losses import dice_score, bce_dice
 from tensorflow.keras.utils import get_custom_objects
 
 #add pathes to s
@@ -55,6 +55,6 @@ def try_to_use_gpus():
 
 def init_losses():
         """function to add my own created losses to scope of tensorflow"""
-        get_custom_objects().update({"BCE_dice": BCE_dice,
+        get_custom_objects().update({"BCE_dice": bce_dice,
                               "dice_score":dice_score})
  

@@ -23,7 +23,7 @@ sys.path.append(MODELS_DIR)
 
 from utils import configure_logging, try_to_use_gpus
 from DataGenerator import DataGenerator 
-from base_unet import Unet_model
+from base_unet import UnetModel
 from callbacks import get_callbacks
 
 #configure and creating logger
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     if not os.path.exists(IMAGES_PATH):
         logger.error(f"{IMAGES_PATH} doesn't exists.")
     
-    training = Training(TRAIN_PATH, IMAGES_PATH, Unet_model().build_architecture())
+    training = Training(TRAIN_PATH, IMAGES_PATH, UnetModel().build_architecture())
 
     training.run_training()
 

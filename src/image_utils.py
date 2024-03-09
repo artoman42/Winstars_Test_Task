@@ -52,7 +52,7 @@ def rle_decode(mask_rle, input_shape=(768,768)):
 
     '''
     img=np.zeros(input_shape[0]*input_shape[1], dtype=np.float32)
-    if not(type(mask_rle) is float):
+    if type(mask_rle) is not float:
         s = mask_rle.split()
         starts, lengths = [np.asarray(x, dtype=int) for x in (s[0:][::2], s[1:][::2])]
         starts -= 1

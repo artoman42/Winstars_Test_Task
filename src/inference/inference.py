@@ -20,7 +20,7 @@ MODELS_DIR = os.path.join(SRC_DIR, 'models')
 sys.path.append(SRC_DIR)
 sys.path.append(MODELS_DIR)
 
-from base_unet import Unet_model
+from base_unet import UnetModel
 from utils import configure_logging, init_losses
 from image_utils import get_run_length_encoded_predictions
 #configure and creating logger
@@ -66,13 +66,13 @@ class Inference():
         self.model.compile(**compile_args)
         self.model.load_weights(model_weigths_path)
 
-    def predict(self, img_name, IMG_SCALING=(3,3)):
-        """function to predict image mask, it rescales inputs image with IMG_SCALING"""
+    def predict(self, img_name, img_scaling=(3,3)):
+        """function to predict image mask, it rescales inputs image with img_scaling"""
         c_path = os.path.join( self.test_images_path, img_name)
         c_img = imread(c_path)
         img = np.expand_dims(c_img, 0)/255.0
-        if IMG_SCALING is not None:
-            img = img[:, ::IMG_SCALING[0], ::IMG_SCALING[1]]
+        if img_scaling is not None:
+            img = img[:, ::img_scaling[0], ::img_scaling[1]]
         return img, self.model.predict(img, verbose=0)
     
     def predict_and_encode(self, test_img_names,amount):
@@ -117,8 +117,9 @@ if __name__ == "__main__":
     
     try:
         amount = int(args.amount)
-    except:
-        logger.error(f"Amount must be integer!")
+    except ValueError:
+        logger.error("Amount must be an integer!")
+
     
 
     TEST_PATH = os.path.join(DATA_DIR, conf['inference']['table_name'])
@@ -129,7 +130,7 @@ if __name__ == "__main__":
     if not os.path.exists(TEST_IMGAGES_PATH):
         logger.error(f"{TEST_IMGAGES_PATH} doesn't exist")
     
-    inference = Inference(Unet_model().build_architecture(), TEST_PATH, TEST_IMGAGES_PATH)
+    inference = Inference(UnetModel().build_architecture(), TEST_PATH, TEST_IMGAGES_PATH)
     inference.run_inference(MODEL_WEIGHTS_PATH, conf['train']['model_compile'],
                             os.path.join(PREDICTIONS_DIR, conf['inference']['predictions_name']),
                             amount)
